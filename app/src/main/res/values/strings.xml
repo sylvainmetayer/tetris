@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Tetris</string>
+    <string name="pause">Pause</string>
+    <string name="score">Score : 0</string>
+    <string name="restart">Reprendre</string>
+    <string name="start">Commencer</string>
+    <string name="go_left">Left</string>
+    <string name="go_right">Right</string>
+</resources>
