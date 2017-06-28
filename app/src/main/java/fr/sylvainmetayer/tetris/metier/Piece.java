@@ -118,6 +118,10 @@ public abstract class Piece implements Mouvement, MouvementPossible {
      */
     public static int getImage(int value) {
         switch (value) {
+            case 3:
+                return R.drawable.green_image;
+            case 2:
+                return R.drawable.orange_image;
             case 1:
                 return R.drawable.blue_image;
             case 0:
@@ -313,14 +317,6 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         return 0;
     }
 
-    public static int[][] transposeMatrix(int[][] m) {
-        int[][] temp = new int[m[0].length][m.length];
-        for (int i = 0; i < m.length; i++)
-            for (int j = 0; j < m[0].length; j++)
-                temp[j][i] = m[i][j];
-        return temp;
-    }
-
     @Override
     public void rotate() {
         Log.d("ROTATION_BEFORE", Arrays.deepToString(matrice));
@@ -353,6 +349,13 @@ public abstract class Piece implements Mouvement, MouvementPossible {
 
     @Override
     public boolean canRotate(int[][] gameboard) {
+        // TODO
+        /*
+         * Here is an idea.
+         * Get the next current rotation, apply the rotation to a copy of the piece,
+         * and try to set it on a local copy of the gameboard.
+         * Return the result of this simulation
+         */
         return true;
     }
 

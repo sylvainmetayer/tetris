@@ -7,7 +7,9 @@ import java.util.Random;
 
 import fr.sylvainmetayer.tetris.MainActivity;
 import fr.sylvainmetayer.tetris.R;
+import fr.sylvainmetayer.tetris.metier.pieces.Piece_I;
 import fr.sylvainmetayer.tetris.metier.pieces.Piece_S;
+import fr.sylvainmetayer.tetris.metier.pieces.Piece_Square;
 import fr.sylvainmetayer.tetris.utils.Utils;
 
 public class Game {
@@ -86,6 +88,10 @@ public class Game {
      * @return true if the piece has been added, false otherwise
      */
     private boolean addPieceToGameBoard(Piece piece) {
+
+        if (piece == null)
+            return false;
+
         int column = piece.getStartColumn();
         int line = piece.getStartLine();
         int[][] matrice = piece.getMatrix();
@@ -130,13 +136,34 @@ public class Game {
         Log.d("PERFORM", "Creation of a new piece");
         // TODO Generate a new random piece
 
-        Random r = new Random();
-        int randomColumn = r.nextInt(activity.getResources().getInteger(R.integer.maxColumns) - 2);
-        Piece start_piece = new Piece_S(0, randomColumn, activity);
+        int maxClassPiece = 3;
 
-        if (!addPieceToGameBoard(start_piece)) // Can't add piece, game over
+        Random r = new Random();
+        int classToChoose = r.nextInt(maxClassPiece);
+
+        int randomColumn = r.nextInt(activity.getResources().getInteger(R.integer.maxColumns) - 2);
+
+        Piece piece = getRandomPiece(activity, classToChoose, randomColumn);
+
+        if (!addPieceToGameBoard(piece)) // Can't add piece, game over
             endGame(activity);
-        pieces.add(start_piece);
+        pieces.add(piece);
+    }
+
+    private Piece getRandomPiece(MainActivity activity, int classToChoose, int randomColumn) {
+        Piece piece = null;
+        switch (classToChoose) {
+            case 0:
+                piece = new Piece_S(0, randomColumn, activity);
+                break;
+            case 1:
+                piece = new Piece_I(0, randomColumn, activity);
+                break;
+            case 2:
+                piece = new Piece_Square(0, randomColumn, activity);
+                break;
+        }
+        return piece;
     }
 
     /**
