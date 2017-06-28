@@ -134,8 +134,6 @@ public class Game {
 
     private void createNewPiece(MainActivity activity) {
         Log.d("PERFORM", "Creation of a new piece");
-        // TODO Generate a new random piece
-
         int maxClassPiece = 3;
 
         Random r = new Random();
@@ -344,6 +342,8 @@ public class Game {
             return;
 
         Piece piece = getCurrentPiece();
+
+        Log.d("CANROTATE", String.valueOf(piece.canRotate(gameboard)));
 
         if (!piece.canRotate(gameboard))
             return;

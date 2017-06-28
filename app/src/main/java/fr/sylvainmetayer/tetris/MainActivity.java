@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         layout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "rotation", Toast.LENGTH_SHORT).show();
                 game.rotate();
             }
         });

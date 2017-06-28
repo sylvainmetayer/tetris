@@ -349,13 +349,43 @@ public abstract class Piece implements Mouvement, MouvementPossible {
 
     @Override
     public boolean canRotate(int[][] gameboard) {
-        // TODO
-        /*
-         * Here is an idea.
-         * Get the next current rotation, apply the rotation to a copy of the piece,
-         * and try to set it on a local copy of the gameboard.
-         * Return the result of this simulation
-         */
+        int column = this.getStartColumn();
+        int line = this.getStartLine();
+        int[][] originalMatrix = this.getMatrix().clone();
+
+        int[][] newMatrix = getMatrix((currentRotation + 1) % maxRotation).clone();
+
+        int[][] gameboardBis = Utils.deepCopy(gameboard);
+
+        // Remove piece from gameboardBis
+        for (int matriceLine = 0; matriceLine < originalMatrix.length; matriceLine++) {
+            for (int matriceColumn = 0; matriceColumn < originalMatrix[matriceLine].length; matriceColumn++) {
+                int matriceValue = originalMatrix[matriceLine][matriceColumn];
+                int pieceColumn = matriceColumn + column;
+                int pieceLine = matriceLine + line;
+
+                if (matriceValue != Piece.getEmptyPieceValue()) {
+                    gameboardBis[pieceLine][pieceColumn] = 0;
+                }
+            }
+        }
+
+        // Add new piece, if possible
+        for (int matriceLine = 0; matriceLine < newMatrix.length; matriceLine++) {
+            for (int matriceColumn = 0; matriceColumn < newMatrix[matriceLine].length; matriceColumn++) {
+                int matriceValue = newMatrix[matriceLine][matriceColumn];
+                int pieceColumn = matriceColumn + column;
+                int pieceLine = matriceLine + line;
+                if (pieceLine >= gameboardBis.length)
+                    return false;
+                if (pieceColumn >= gameboardBis[pieceLine].length)
+                    return false;
+                if (gameboardBis[pieceLine][pieceColumn] != Piece.getEmptyPieceValue() && matriceValue != Piece.getEmptyPieceValue())
+                    return false;
+
+                gameboardBis[pieceLine][pieceColumn] = matriceValue;
+            }
+        }
         return true;
     }
 
