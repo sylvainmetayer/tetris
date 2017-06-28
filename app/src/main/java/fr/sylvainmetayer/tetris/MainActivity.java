@@ -1,6 +1,7 @@
 package fr.sylvainmetayer.tetris;
 
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView scoreBox;
     private Button left, right;
     private Timer timer;
+    MediaPlayer mediaPlayer;
 
     private ArrayList<Piece> datas;
 
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         int nb_columns = getResources().getInteger(R.integer.maxColumns);
         int nb_lines = getResources().getInteger(R.integer.maxLines);
+
+        this.mediaPlayer = null;
 
         layout = (GridView) findViewById(R.id.grid);
         scoreBox = (TextView) findViewById(R.id.score);
@@ -93,7 +97,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toggleMusic() {
-        // TODO
+        if (this.mediaPlayer == null) {
+            this.mediaPlayer = MediaPlayer.create(this, R.raw.main);
+            mediaPlayer.setLooping(true);
+        }
+
+        if (mediaPlayer.isPlaying())
+            mediaPlayer.pause();
+        else
+            mediaPlayer.start();
+
     }
 
     private void showHelp() {
