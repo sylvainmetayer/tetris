@@ -4,9 +4,12 @@
     <string name="score">Score : 0</string>
     <string name="restart">Reprendre</string>
     <string name="start">Commencer</string>
-    <string name="go_left">Left</string>
-    <string name="go_right">Right</string>
+    <string name="go_left">&lt;</string>
+    <string name="go_right">&gt;</string>
     <string name="end_game">Vous avez perdu !</string>
     <string name="end_game_restart">Recommencer</string>
     <string name="end_game_quit">Quitter</string>
+    <string name="menu_restart">Recommencer</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_music">Musique On/Off</string>
 </resources>
