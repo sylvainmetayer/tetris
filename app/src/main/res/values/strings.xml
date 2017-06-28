@@ -3,7 +3,7 @@
     <string name="pause">Pause</string>
     <string name="score">Score : 0</string>
     <string name="restart">Reprendre</string>
-    <string name="start">Commencer</string>
+    <string name="start">Start</string>
     <string name="go_left">&lt;</string>
     <string name="go_right">&gt;</string>
     <string name="end_game">Vous avez perdu !</string>
@@ -13,4 +13,6 @@
     <string name="menu_help">Aide</string>
     <string name="menu_music">Musique On/Off</string>
     <string name="chrono">Temps</string>
+    <string name="rotation">&#8853;</string>
+    <string name="menu_play_pause">Play / Pause</string>
 </resources>

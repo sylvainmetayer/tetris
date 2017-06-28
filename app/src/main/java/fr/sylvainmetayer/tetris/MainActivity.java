@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Game game;
     private GridView layout;
     private TextView scoreBox;
-    private Button left, right;
+    private Button left, right, rotation;
     private Timer timer;
     private MediaPlayer mediaPlayer;
     private Chronometer chronometer;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         scoreBox = (TextView) findViewById(R.id.score);
         left = (Button) findViewById(R.id.left);
         right = (Button) findViewById(R.id.right);
-
+        rotation = (Button) findViewById(R.id.rotation);
 
         initDatas();
         game = new Game(datas, nb_lines, nb_columns);
@@ -101,6 +101,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_music_toggle:
                 toggleMusic();
                 return true;
+            case R.id.menu_play_pause:
+                game.togglePause();
+                if (game.isPause()) {
+                    timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
+                    chronometer.stop();
+                } else {
+                    chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+                    chronometer.start();
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -150,23 +159,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void initListeners() {
 
-        final Button pause = (Button) findViewById(R.id.pause);
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                game.togglePause();
-                if (game.isPause()) {
-                    timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
-                    chronometer.stop();
-                    pause.setText(getResources().getString(R.string.restart));
-                } else {
-                    chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
-                    chronometer.start();
-                    pause.setText(getResources().getString(R.string.pause));
-                }
-            }
-        });
-
         layout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -200,6 +192,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 game.moveLeft();
+                refresh();
+            }
+        });
+
+        rotation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                game.rotate();
                 refresh();
             }
         });

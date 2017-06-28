@@ -10,13 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/start" />
-
         <Chronometer
             android:id="@+id/chronometer"
             android:layout_width="wrap_content"
@@ -33,6 +26,12 @@
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="wrap_content"
             android:text="@string/go_right" />
+
+        <Button
+            android:id="@+id/rotation"
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="wrap_content"
+            android:text="@string/rotation" />
 
         <TextView
             android:id="@+id/score"
