@@ -218,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 timer.cancel();
+                timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
+                chronometer.stop();
                 Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.end_game), Toast.LENGTH_LONG).show();
             }
         });
