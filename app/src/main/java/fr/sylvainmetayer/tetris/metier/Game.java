@@ -16,6 +16,13 @@ public class Game {
     private boolean pause;
     private int score;
 
+    /**
+     * Initialize a gameboard, with a list of piece which will be added to the 2D int matrix.
+     *
+     * @param pieces     {@link java.util.List<Piece>}
+     * @param nb_lines   int
+     * @param nb_columns int
+     */
     public Game(ArrayList<Piece> pieces, int nb_lines, int nb_columns) {
 
         this.pieces = pieces;
@@ -45,6 +52,9 @@ public class Game {
         Log.d("INIT_ENDED", logGameboard(gameboard));
     }
 
+    /**
+     * This function reset the gameboard
+     */
     private void resetGame() {
         for (int line = 0; line < gameboard.length; line++) {
             for (int column = 0; column < gameboard[line].length; column++) {
@@ -53,6 +63,9 @@ public class Game {
         }
     }
 
+    /**
+     * Return a 2D array as a 1D array
+     */
     public Integer[] getGameboard() {
 
         Integer newArray[] = new Integer[gameboard.length * gameboard[0].length];
@@ -66,22 +79,27 @@ public class Game {
         return newArray;
     }
 
+    /**
+     * This function add a given piece to the gameboard
+     *
+     * @param piece The piece to add
+     * @return true if the piece has been added, false otherwise
+     */
     private boolean addPieceToGameBoard(Piece piece) {
         int column = piece.getStartColumn();
         int line = piece.getStartLine();
         int[][] matrice = piece.getMatrix();
 
-        Log.d("ROTATION_ADD", piece.toString());
+        Log.d("ADD_PIECE", piece.toString());
 
-        for (int matriceLineIterator = 0; matriceLineIterator < matrice.length; matriceLineIterator++) {
-            for (int matriceColumnIterator = 0; matriceColumnIterator < matrice[matriceLineIterator].length; matriceColumnIterator++) {
-                int matriceValue = matrice[matriceLineIterator][matriceColumnIterator];
-                int pieceColumn = matriceColumnIterator + column;
-                int pieceLine = matriceLineIterator + line;
+        for (int matriceLine = 0; matriceLine < matrice.length; matriceLine++) {
+            for (int matriceColumn = 0; matriceColumn < matrice[matriceLine].length; matriceColumn++) {
+                int matriceValue = matrice[matriceLine][matriceColumn];
+                int pieceColumn = matriceColumn + column;
+                int pieceLine = matriceLine + line;
                 Log.d("ADD_PIECE", "affect value '" + matriceValue + "' at " + Utils.formatPosition(pieceLine, pieceColumn));
 
                 if (gameboard[pieceLine][pieceColumn] != Piece.getEmptyPieceValue() && matriceValue != Piece.getEmptyPieceValue()) {
-                    Log.d("ROTATION", "Error :" + Utils.formatPosition(pieceLine, pieceColumn) + " is not empty !");
                     return false;
                 }
                 gameboard[pieceLine][pieceColumn] = matriceValue;
@@ -100,10 +118,11 @@ public class Game {
             this.moveDown(lastPiece);
             lastPiece.down();
             Log.d("STATE_AFTER", lastPiece.toString());
-        } else
+        } else {
+            // Piece can't go down anymore, let's check full lines & create a new piece
+            checkFullLines();
             createNewPiece(activity);
-        if (checkFullLines(lastPiece))
-            createNewPiece(activity);
+        }
         Log.d("GBOARD", logGameboard(gameboard));
     }
 
@@ -112,20 +131,18 @@ public class Game {
         // TODO Generate a new random piece
 
         Random r = new Random();
-        int randomColumn = r.nextInt(activity.getResources().getInteger(R.integer.maxColumns) - 1);
+        int randomColumn = r.nextInt(activity.getResources().getInteger(R.integer.maxColumns) - 2);
         Piece start_piece = new Piece_S(0, randomColumn, activity);
 
         if (!addPieceToGameBoard(start_piece)) // Can't add piece, game over
-            endGame();
+            endGame(activity);
         pieces.add(start_piece);
     }
 
     /**
      * This method is used to remove full lines
-     *
-     * @param piece The current piece
      */
-    private boolean checkFullLines(Piece piece) {
+    private void checkFullLines() {
         for (int gameLine = gameboard.length - 1; gameLine >= 0; gameLine--) {
             int cpt = 0;
             for (int gameColumn = 0; gameColumn < gameboard[gameLine].length; gameColumn++) {
@@ -141,28 +158,16 @@ public class Game {
                     score += cpt;
                 }
                 moveAllPieceDownAboveThisLine(gameLine);
-                if (isPieceNeedToBeReplaced(piece, gameLine))
-                    return true;
             }
         }
-        return false;
     }
 
-    private boolean isPieceNeedToBeReplaced(Piece piece, int lineThatWasRemoved) {
-        int line = piece.getStartLine();
-        int[][] matrice = piece.getMatrix();
-
-        for (int matriceLine = 0; matriceLine < matrice.length; matriceLine++) {
-            for (int matriceColumn = 0; matriceColumn < matrice[matriceLine].length; matriceColumn++) {
-                int pieceLine = matriceLine + line;
-
-                if (lineThatWasRemoved == pieceLine)
-                    return true;
-            }
-        }
-        return false;
-    }
-
+    /**
+     * This function is used to move all piece that are below a given line.
+     * This function is only called by @{@link Game#checkFullLines()}
+     *
+     * @param line int: the limit line
+     */
     private void moveAllPieceDownAboveThisLine(int line) {
         for (int gameLine = 0; gameLine < line; gameLine++) {
             for (int gameColumn = 0; gameColumn < gameboard[gameLine].length; gameColumn++) {
@@ -173,17 +178,32 @@ public class Game {
         }
     }
 
-    private void endGame() {
-        //Toast.makeText(activity, "Game over", Toast.LENGTH_LONG).show();
+    /**
+     * This function is called when the game is over.
+     *
+     * @param activity {@link MainActivity}
+     */
+    private void endGame(MainActivity activity) {
+        activity.endGame();
         Log.i("END", "GAME OVER");
-        this.togglePause();
     }
 
+    /**
+     * This function returns the piece that is currently moving on the gameboard
+     *
+     * @return Piece
+     */
     private Piece getCurrentPiece() {
         return pieces.get(pieces.size() - 1);
     }
 
-    static String logGameboard(int[][] gameboard) {
+    /**
+     * This function logs a gameboard and return it's textual representation.
+     *
+     * @param gameboard int[][]
+     * @return String
+     */
+    private static String logGameboard(int[][] gameboard) {
         StringBuilder sb = new StringBuilder();
         for (int[] aGameboard : gameboard) {
             for (int anAGameboard : aGameboard) {
@@ -194,6 +214,9 @@ public class Game {
         return sb.toString();
     }
 
+    /**
+     * This function is used to toggle the {@link Game#pause} value
+     */
     public void togglePause() {
         this.pause = !pause;
     }
@@ -206,7 +229,10 @@ public class Game {
         return "Score : " + score;
     }
 
-    public void moveLeft(MainActivity activity) {
+    /**
+     * This function move the current piece to the left, if possible
+     */
+    public void moveLeft() {
         if (this.isPause())
             return;
 
@@ -218,10 +244,13 @@ public class Game {
         // -1 because we want to move left.
         moveColumn(piece, -1);
         piece.left();
-        if (checkFullLines(piece))
-            createNewPiece(activity);
     }
 
+    /**
+     * This function move the current piece to the bottom of the gameboard.
+     *
+     * @param piece The piece we want to move down
+     */
     private void moveDown(Piece piece) {
         int column = piece.getStartColumn();
         int line = piece.getStartLine();
@@ -241,7 +270,10 @@ public class Game {
         }
     }
 
-    public void moveRight(MainActivity activity) {
+    /**
+     * This function move the current piece to the right, if possible
+     */
+    public void moveRight() {
         if (this.isPause())
             return;
 
@@ -252,10 +284,14 @@ public class Game {
 
         moveColumn(piece, 1);
         piece.right();
-        if (checkFullLines(piece))
-            createNewPiece(activity);
     }
 
+    /**
+     * This function move a piece on a column, according to the value of #columnValue
+     *
+     * @param piece       The piece we want to move
+     * @param columnValue Whether we want to move it left (-1) or right (1)
+     */
     private void moveColumn(Piece piece, int columnValue) {
         int column = piece.getStartColumn();
         int line = piece.getStartLine();
@@ -273,7 +309,10 @@ public class Game {
         }
     }
 
-    public void rotate(MainActivity activity) {
+    /**
+     * This function is used to rotate the current piece, if possible
+     */
+    public void rotate() {
         if (this.isPause())
             return;
 
@@ -282,19 +321,17 @@ public class Game {
         if (!piece.canRotate(gameboard))
             return;
 
-        Log.d("ROTATION", logGameboard(gameboard));
-        Log.d("ROTATION", "Etape 1 : Retirer l'ancienne piece du plateau d'entier");
         removePieceFromGameBoard(piece);
-        Log.d("ROTATION", "Etape 2 : Changer la matrice de la piece");
-        Log.d("ROTATION", logGameboard(gameboard));
         piece.rotate();
-        Log.d("ROTATION", "Etape 3 : Ajouter la nouvelle matrice de la piece sur le plateau d'entier");
         addPieceToGameBoard(piece);
-        Log.d("ROTATION", logGameboard(gameboard));
-        //if (checkFullLines(piece))
-        //    createNewPiece(activity);
     }
 
+    /**
+     * This function remove a piece from the gameboard
+     * It should only be used by {@link Game#rotate()} to avoid side effect
+     *
+     * @param piece The piece to remove
+     */
     private void removePieceFromGameBoard(Piece piece) {
         int column = piece.getStartColumn();
         int line = piece.getStartLine();

@@ -17,20 +17,26 @@ public abstract class Piece implements Mouvement, MouvementPossible {
     private int startColumn;
     private int color;
     private Context context;
-    protected List<String> bottomPointsToCheckPosition0;
-    protected List<String> bottomPointsToCheckPosition1;
-    protected List<String> bottomPointsToCheckPosition2;
-    protected List<String> bottomPointsToCheckPosition3;
 
-    protected List<String> leftPointsToCheckPosition0;
-    protected List<String> leftPointsToCheckPosition1;
-    protected List<String> leftPointsToCheckPosition2;
-    protected List<String> leftPointsToCheckPosition3;
+    /**
+     * Each {@link List<String>} listed below are lists of points to check, for each position of a piece
+     *
+     * @see Piece#matricePosition0 & others to see the main usage of theses lists
+     */
+    protected List<String> bottomPointsPosition0;
+    protected List<String> bottomPointsPosition1;
+    protected List<String> bottomPointsPosition2;
+    protected List<String> bottomPointsPosition3;
 
-    protected List<String> rightPointsToCheckPosition0;
-    protected List<String> rightPointsToCheckPosition1;
-    protected List<String> rightPointsToCheckPosition2;
-    protected List<String> rightPointsToCheckPosition3;
+    protected List<String> leftPointsPosition0;
+    protected List<String> leftPointsPosition1;
+    protected List<String> leftPointsPosition2;
+    protected List<String> leftPointsPosition3;
+
+    protected List<String> rightPointsPosition0;
+    protected List<String> rightPointsPosition1;
+    protected List<String> rightPointsPosition2;
+    protected List<String> rightPointsPosition3;
 
 
     /**
@@ -69,40 +75,47 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         this.color = color;
         this.context = context;
 
-        this.bottomPointsToCheckPosition0 = new ArrayList<>();
-        this.bottomPointsToCheckPosition1 = new ArrayList<>();
-        this.bottomPointsToCheckPosition2 = new ArrayList<>();
-        this.bottomPointsToCheckPosition3 = new ArrayList<>();
+        this.bottomPointsPosition0 = new ArrayList<>();
+        this.bottomPointsPosition1 = new ArrayList<>();
+        this.bottomPointsPosition2 = new ArrayList<>();
+        this.bottomPointsPosition3 = new ArrayList<>();
 
-        this.leftPointsToCheckPosition0 = new ArrayList<>();
-        this.leftPointsToCheckPosition1 = new ArrayList<>();
-        this.leftPointsToCheckPosition2 = new ArrayList<>();
-        this.leftPointsToCheckPosition3 = new ArrayList<>();
+        this.leftPointsPosition0 = new ArrayList<>();
+        this.leftPointsPosition1 = new ArrayList<>();
+        this.leftPointsPosition2 = new ArrayList<>();
+        this.leftPointsPosition3 = new ArrayList<>();
 
-        this.rightPointsToCheckPosition0 = new ArrayList<>();
-        this.rightPointsToCheckPosition1 = new ArrayList<>();
-        this.rightPointsToCheckPosition2 = new ArrayList<>();
-        this.rightPointsToCheckPosition3 = new ArrayList<>();
+        this.rightPointsPosition0 = new ArrayList<>();
+        this.rightPointsPosition1 = new ArrayList<>();
+        this.rightPointsPosition2 = new ArrayList<>();
+        this.rightPointsPosition3 = new ArrayList<>();
+
         this.maxRotation = 0;
         this.currentRotation = 0;
     }
 
-    public Context getContext() {
+    private Context getContext() {
         return context;
     }
 
-    public int[][] getMatrix() {
+    int[][] getMatrix() {
         return matrice;
     }
 
-    public int getStartLine() {
+    protected int getStartLine() {
         return startLine;
     }
 
-    public int getStartColumn() {
+    protected int getStartColumn() {
         return startColumn;
     }
 
+    /**
+     * This function return the image of a piece, according to its value
+     *
+     * @param value int
+     * @return int
+     */
     public static int getImage(int value) {
         switch (value) {
             case 1:
@@ -113,49 +126,75 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         return R.drawable.black_image;
     }
 
+    /**
+     * This function return the lists of points to check for a move to the left, according to the current rotation of the piece
+     *
+     * @param position int
+     * @return List
+     */
     private List<String> getLeftPointsToCheck(int position) {
         switch (position) {
             case 0:
-                return leftPointsToCheckPosition0;
+                return leftPointsPosition0;
             case 1:
-                return leftPointsToCheckPosition1;
+                return leftPointsPosition1;
             case 2:
-                return leftPointsToCheckPosition2;
+                return leftPointsPosition2;
             case 3:
-                return leftPointsToCheckPosition3;
+                return leftPointsPosition3;
         }
         return new ArrayList<>();
     }
 
+    /**
+     * This function return the lists of points to check for a move to the bottom, according to the current rotation of the piece
+     *
+     * @param position int
+     * @return List
+     */
     private List<String> getBottomPointsToCheck(int position) {
         switch (position) {
             case 0:
-                return bottomPointsToCheckPosition0;
+                return bottomPointsPosition0;
             case 1:
-                return bottomPointsToCheckPosition1;
+                return bottomPointsPosition1;
             case 2:
-                return bottomPointsToCheckPosition2;
+                return bottomPointsPosition2;
             case 3:
-                return bottomPointsToCheckPosition3;
+                return bottomPointsPosition3;
         }
         return new ArrayList<>();
     }
 
+    /**
+     * This function return the lists of points to check for a move to the right, according to the current rotation of the piece
+     *
+     * @param position int
+     * @return List
+     */
     private List<String> getRightPointsToCheck(int position) {
         switch (position) {
             case 0:
-                return rightPointsToCheckPosition0;
+                return rightPointsPosition0;
             case 1:
-                return rightPointsToCheckPosition1;
+                return rightPointsPosition1;
             case 2:
-                return rightPointsToCheckPosition2;
+                return rightPointsPosition2;
             case 3:
-                return rightPointsToCheckPosition3;
+                return rightPointsPosition3;
         }
         return new ArrayList<>();
     }
 
-    public List<String> getPointsToCheck(String state, int position) {
+    /**
+     * This function return the list of points to check for a move, according to
+     * the current rotation of the piece and a move to a particular direction
+     *
+     * @param position 0 | 1 | 2 | 3
+     * @param state    "left" | "right" | "down"
+     * @return List
+     */
+    private List<String> getPointsToCheck(String state, int position) {
         switch (state) {
             case "left":
                 return getLeftPointsToCheck(position);
@@ -202,12 +241,12 @@ public abstract class Piece implements Mouvement, MouvementPossible {
 
             if (isLeft) {
                 if (newPieceColumnPosition < 0) {
-                    Log.i("CANGO" + "LEFT", "Out of boundary, continue");
+                    Log.i("CANGO" + "LEFT", "Out of boundary");
                     return false;
                 }
             } else {
                 if (newPieceColumnPosition >= getContext().getResources().getInteger(R.integer.maxColumns)) {
-                    Log.i("CANGO" + "RIGHT", "Out of boundary, continue");
+                    Log.i("CANGO" + "RIGHT", "Out of boundary");
                     return false;
                 }
             }
@@ -251,11 +290,11 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         return true;
     }
 
-    public void setStartLine(int startLine) {
+    protected void setStartLine(int startLine) {
         this.startLine = startLine;
     }
 
-    public void setStartColumn(int startColumn) {
+    protected void setStartColumn(int startColumn) {
         this.startColumn = startColumn;
     }
 
@@ -270,7 +309,7 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         return sb.toString();
     }
 
-    public static int getEmptyPieceValue() {
+    static int getEmptyPieceValue() {
         return 0;
     }
 
@@ -317,11 +356,11 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         return true;
     }
 
-    public void setMaxRotation(int maxRotation) {
+    protected void setMaxRotation(int maxRotation) {
         this.maxRotation = maxRotation;
     }
 
-    public void setCurrentRotation(int currentRotation) {
+    private void setCurrentRotation(int currentRotation) {
         this.currentRotation = currentRotation;
     }
 }

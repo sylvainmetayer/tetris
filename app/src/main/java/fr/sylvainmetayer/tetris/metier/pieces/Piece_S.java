@@ -13,46 +13,46 @@ public class Piece_S extends Piece {
 
     public Piece_S(int line, int column, Context context) {
         super(matrice, line, column, 1, context);
-        bottomPointsToCheckPosition0.add("0,2");
-        bottomPointsToCheckPosition0.add("1,0");
-        bottomPointsToCheckPosition0.add("1,1");
+        bottomPointsPosition0.add("0,2");
+        bottomPointsPosition0.add("1,0");
+        bottomPointsPosition0.add("1,1");
 
-        bottomPointsToCheckPosition1.add("1,0");
-        bottomPointsToCheckPosition1.add("2,1");
+        bottomPointsPosition1.add("1,0");
+        bottomPointsPosition1.add("2,1");
 
-        bottomPointsToCheckPosition2.add("0,2");
-        bottomPointsToCheckPosition2.add("1,0");
-        bottomPointsToCheckPosition2.add("1,1");
+        bottomPointsPosition2.add("0,2");
+        bottomPointsPosition2.add("1,0");
+        bottomPointsPosition2.add("1,1");
 
-        bottomPointsToCheckPosition3.add("0,0");
-        bottomPointsToCheckPosition3.add("1,1");
-        bottomPointsToCheckPosition3.add("1,2");
+        bottomPointsPosition3.add("0,0");
+        bottomPointsPosition3.add("1,1");
+        bottomPointsPosition3.add("1,2");
 
-        leftPointsToCheckPosition0.add("0,1");
-        leftPointsToCheckPosition0.add("1,0");
+        leftPointsPosition0.add("0,1");
+        leftPointsPosition0.add("1,0");
 
-        leftPointsToCheckPosition1.add("0,0");
-        leftPointsToCheckPosition1.add("1,0");
-        leftPointsToCheckPosition1.add("2,1");
+        leftPointsPosition1.add("0,0");
+        leftPointsPosition1.add("1,0");
+        leftPointsPosition1.add("2,1");
 
-        leftPointsToCheckPosition2.add("0,1");
-        leftPointsToCheckPosition2.add("1,0");
+        leftPointsPosition2.add("0,1");
+        leftPointsPosition2.add("1,0");
 
-        leftPointsToCheckPosition3.add("0,0");
-        leftPointsToCheckPosition3.add("1,1");
+        leftPointsPosition3.add("0,0");
+        leftPointsPosition3.add("1,1");
 
-        rightPointsToCheckPosition0.add("0,2");
-        rightPointsToCheckPosition0.add("1,1");
+        rightPointsPosition0.add("0,2");
+        rightPointsPosition0.add("1,1");
 
-        rightPointsToCheckPosition1.add("0,0");
-        rightPointsToCheckPosition1.add("1,1");
-        rightPointsToCheckPosition1.add("2,1");
+        rightPointsPosition1.add("0,0");
+        rightPointsPosition1.add("1,1");
+        rightPointsPosition1.add("2,1");
 
-        rightPointsToCheckPosition2.add("0,2");
-        rightPointsToCheckPosition2.add("1,1");
+        rightPointsPosition2.add("0,2");
+        rightPointsPosition2.add("1,1");
 
-        rightPointsToCheckPosition3.add("0,1");
-        rightPointsToCheckPosition3.add("1,2");
+        rightPointsPosition3.add("0,1");
+        rightPointsPosition3.add("1,2");
 
         matricePosition0 = Piece_S.matrice;
         matricePosition1 = new int[][]{

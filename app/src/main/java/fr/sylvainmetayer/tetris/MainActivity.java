@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private GridView layout;
     private TextView scoreBox;
     private Button left, right;
+    private Timer timer;
 
     private ArrayList<Piece> datas;
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         initListeners();
 
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-        }, 0, 1000);
+        }, 0, getResources().getInteger(R.integer.timer));
 
     }
 
@@ -91,16 +92,29 @@ public class MainActivity extends AppCompatActivity {
         layout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "click", Toast.LENGTH_SHORT).show();
-                game.rotate(MainActivity.this);
+                Toast.makeText(MainActivity.this, "rotation", Toast.LENGTH_SHORT).show();
+                game.rotate();
             }
         });
-        layout.setOnTouchListener(new OnSwipeTouchListenerImpl(this));
+
+        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
+
+            public void onSwipeRight() {
+                game.moveRight();
+                refresh();
+            }
+
+            public void onSwipeLeft() {
+                game.moveLeft();
+                refresh();
+            }
+
+        });
 
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                game.moveRight(MainActivity.this);
+                game.moveRight();
                 refresh();
             }
         });
@@ -108,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                game.moveLeft(MainActivity.this);
+                game.moveLeft();
                 refresh();
             }
         });
@@ -118,5 +132,17 @@ public class MainActivity extends AppCompatActivity {
         datas = new ArrayList<>();
         Piece start_piece = new Piece_I(0, 2, this);
         datas.add(start_piece);
+    }
+
+    public void endGame() {
+
+        this.runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                timer.cancel();
+                Toast.makeText(MainActivity.this, MainActivity.this.getResources().getString(R.string.end_game), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
