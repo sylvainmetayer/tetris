@@ -12,7 +12,7 @@ public class Piece_S extends Piece {
     };
 
     public Piece_S(int line, int column, Context context) {
-        super(matrice, line, column, 1, context);
+        super(matrice, line, column, 3, context);
         bottomPointsPosition0.add("0,2");
         bottomPointsPosition0.add("1,0");
         bottomPointsPosition0.add("1,1");

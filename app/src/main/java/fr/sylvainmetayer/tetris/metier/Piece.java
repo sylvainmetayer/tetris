@@ -396,4 +396,15 @@ public abstract class Piece implements Mouvement, MouvementPossible {
     private void setCurrentRotation(int currentRotation) {
         this.currentRotation = currentRotation;
     }
+
+    /**
+     * This method returns the corresponding color of the piece, if the matrix if set to 1 on the given coordinates
+     *
+     * @param line   int
+     * @param column int
+     * @return
+     */
+    public int getColor(int line, int column) {
+        return (matrice[line][column] == getEmptyPieceValue()) ? 0 : color;
+    }
 }

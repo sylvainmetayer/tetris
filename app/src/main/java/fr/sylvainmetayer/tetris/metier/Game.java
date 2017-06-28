@@ -43,7 +43,7 @@ public class Game {
 
             for (int matriceLine = 0; matriceLine < matrice.length; matriceLine++) {
                 for (int matriceColumn = 0; matriceColumn < matrice[matriceLine].length; matriceColumn++) {
-                    int matriceValue = matrice[matriceLine][matriceColumn];
+                    int matriceValue = piece.getColor(matriceLine, matriceColumn);
                     int pieceColumn = matriceColumn + column;
                     int pieceLine = matriceLine + line;
                     Log.d("INIT", "I will affect the value '" + matriceValue + "' at " + Utils.formatPosition(pieceLine, pieceColumn));
@@ -100,7 +100,7 @@ public class Game {
 
         for (int matriceLine = 0; matriceLine < matrice.length; matriceLine++) {
             for (int matriceColumn = 0; matriceColumn < matrice[matriceLine].length; matriceColumn++) {
-                int matriceValue = matrice[matriceLine][matriceColumn];
+                int matriceValue = piece.getColor(matriceLine, matriceColumn);
                 int pieceColumn = matriceColumn + column;
                 int pieceLine = matriceLine + line;
                 Log.d("ADD_PIECE", "affect value '" + matriceValue + "' at " + Utils.formatPosition(pieceLine, pieceColumn));
@@ -283,7 +283,7 @@ public class Game {
 
         for (int matriceLine = matrice.length - 1; matriceLine >= 0; matriceLine--) {
             for (int matriceColumn = 0; matriceColumn < matrice[matriceLine].length; matriceColumn++) {
-                int matriceValue = matrice[matriceLine][matriceColumn];
+                int matriceValue = piece.getColor(matriceLine, matriceColumn);
                 int pieceColumn = matriceColumn + column;
                 int pieceLine = matriceLine + line;
 
@@ -324,7 +324,7 @@ public class Game {
 
         for (int matriceLine = 0; matriceLine < matrice.length; matriceLine++) {
             for (int matriceColumn = 0; matriceColumn < matrice[matriceLine].length; matriceColumn++) {
-                int matriceValue = matrice[matriceLine][matriceColumn];
+                int matriceValue = piece.getColor(matriceLine, matriceColumn);
                 int pieceColumn = matriceColumn + column;
                 int pieceLine = matriceLine + line;
 
@@ -366,7 +366,7 @@ public class Game {
 
         for (int matriceLine = 0; matriceLine < matrice.length; matriceLine++) {
             for (int matriceColumn = 0; matriceColumn < matrice[matriceLine].length; matriceColumn++) {
-                int matriceValue = matrice[matriceLine][matriceColumn];
+                int matriceValue = piece.getColor(matriceLine, matriceColumn);
                 int pieceColumn = matriceColumn + column;
                 int pieceLine = matriceLine + line;
 
