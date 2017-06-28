@@ -41,11 +41,11 @@ public class Game {
             Log.d("INIT", piece.toString());
             Log.d("INIT", "The piece start at " + Utils.formatPosition(line, column));
 
-            for (int matriceLineIterator = 0; matriceLineIterator < matrice.length; matriceLineIterator++) {
-                for (int matriceColumnIterator = 0; matriceColumnIterator < matrice[matriceLineIterator].length; matriceColumnIterator++) {
-                    int matriceValue = matrice[matriceLineIterator][matriceColumnIterator];
-                    int pieceColumn = matriceColumnIterator + column;
-                    int pieceLine = matriceLineIterator + line;
+            for (int matriceLine = 0; matriceLine < matrice.length; matriceLine++) {
+                for (int matriceColumn = 0; matriceColumn < matrice[matriceLine].length; matriceColumn++) {
+                    int matriceValue = matrice[matriceLine][matriceColumn];
+                    int pieceColumn = matriceColumn + column;
+                    int pieceLine = matriceLine + line;
                     Log.d("INIT", "I will affect the value '" + matriceValue + "' at " + Utils.formatPosition(pieceLine, pieceColumn));
                     gameboard[pieceLine][pieceColumn] = matriceValue;
                 }
