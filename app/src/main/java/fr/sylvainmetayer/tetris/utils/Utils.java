@@ -6,6 +6,13 @@ package fr.sylvainmetayer.tetris.utils;
 
 public class Utils {
 
+    /**
+     * This function is used to simplify the display of a Point coordinate
+     *
+     * @param line:   int
+     * @param column: int
+     * @return String
+     */
     public static String formatPosition(int line, int column) {
         return "Position [" + line + "," + column + "]";
     }

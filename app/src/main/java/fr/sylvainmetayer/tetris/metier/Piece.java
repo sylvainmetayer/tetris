@@ -17,14 +17,49 @@ public abstract class Piece implements Mouvement, MouvementPossible {
     private int startColumn;
     private int color;
     private Context context;
-    protected List<String> bottomPointsToCheck;
-    protected List<String> leftPointsToCheck;
-    protected List<String> rightPointsToCheck;
+    protected List<String> bottomPointsToCheckPosition0;
+    protected List<String> bottomPointsToCheckPosition1;
+    protected List<String> bottomPointsToCheckPosition2;
+    protected List<String> bottomPointsToCheckPosition3;
+
+    protected List<String> leftPointsToCheckPosition0;
+    protected List<String> leftPointsToCheckPosition1;
+    protected List<String> leftPointsToCheckPosition2;
+    protected List<String> leftPointsToCheckPosition3;
+
+    protected List<String> rightPointsToCheckPosition0;
+    protected List<String> rightPointsToCheckPosition1;
+    protected List<String> rightPointsToCheckPosition2;
+    protected List<String> rightPointsToCheckPosition3;
+
+
+    /**
+     * This maximum number of ratation the piece can make
+     */
     private int maxRotation;
+    /**
+     * This current rotation state of a piece.
+     */
     private int currentRotation;
+
+    /**
+     * The first position of a piece. Required
+     */
     protected int[][] matricePosition0;
+
+    /**
+     * The second position of a piece when rotating. Required.
+     */
     protected int[][] matricePosition1;
+
+    /**
+     * This third position of a piece when rotating. Optional.
+     */
     protected int[][] matricePosition2;
+
+    /**
+     * The fourth position of a piece when rotating. Optional.
+     */
     protected int[][] matricePosition3;
 
     public Piece(int[][] matrice, int line, int column, int color, Context context) {
@@ -33,9 +68,21 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         this.startColumn = column;
         this.color = color;
         this.context = context;
-        this.bottomPointsToCheck = new ArrayList<>();
-        this.leftPointsToCheck = new ArrayList<>();
-        this.rightPointsToCheck = new ArrayList<>();
+
+        this.bottomPointsToCheckPosition0 = new ArrayList<>();
+        this.bottomPointsToCheckPosition1 = new ArrayList<>();
+        this.bottomPointsToCheckPosition2 = new ArrayList<>();
+        this.bottomPointsToCheckPosition3 = new ArrayList<>();
+
+        this.leftPointsToCheckPosition0 = new ArrayList<>();
+        this.leftPointsToCheckPosition1 = new ArrayList<>();
+        this.leftPointsToCheckPosition2 = new ArrayList<>();
+        this.leftPointsToCheckPosition3 = new ArrayList<>();
+
+        this.rightPointsToCheckPosition0 = new ArrayList<>();
+        this.rightPointsToCheckPosition1 = new ArrayList<>();
+        this.rightPointsToCheckPosition2 = new ArrayList<>();
+        this.rightPointsToCheckPosition3 = new ArrayList<>();
         this.maxRotation = 0;
         this.currentRotation = 0;
     }
@@ -44,7 +91,7 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         return context;
     }
 
-    public int[][] getMatrice() {
+    public int[][] getMatrix() {
         return matrice;
     }
 
@@ -66,16 +113,78 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         return R.drawable.black_image;
     }
 
+    private List<String> getLeftPointsToCheck(int position) {
+        switch (position) {
+            case 0:
+                return leftPointsToCheckPosition0;
+            case 1:
+                return leftPointsToCheckPosition1;
+            case 2:
+                return leftPointsToCheckPosition2;
+            case 3:
+                return leftPointsToCheckPosition3;
+        }
+        return new ArrayList<>();
+    }
+
+    private List<String> getBottomPointsToCheck(int position) {
+        switch (position) {
+            case 0:
+                return bottomPointsToCheckPosition0;
+            case 1:
+                return bottomPointsToCheckPosition1;
+            case 2:
+                return bottomPointsToCheckPosition2;
+            case 3:
+                return bottomPointsToCheckPosition3;
+        }
+        return new ArrayList<>();
+    }
+
+    private List<String> getRightPointsToCheck(int position) {
+        switch (position) {
+            case 0:
+                return rightPointsToCheckPosition0;
+            case 1:
+                return rightPointsToCheckPosition1;
+            case 2:
+                return rightPointsToCheckPosition2;
+            case 3:
+                return rightPointsToCheckPosition3;
+        }
+        return new ArrayList<>();
+    }
+
+    public List<String> getPointsToCheck(String state, int position) {
+        switch (state) {
+            case "left":
+                return getLeftPointsToCheck(position);
+            case "down":
+                return getBottomPointsToCheck(position);
+            case "right":
+                return getRightPointsToCheck(position);
+        }
+        return new ArrayList<>();
+    }
+
     @Override
     public boolean canGoLeft(int[][] gameboard) {
-        return checkColumnLimits(gameboard, -1, leftPointsToCheck);
+        return checkColumnLimits(gameboard, -1, getPointsToCheck("left", currentRotation));
     }
 
     @Override
     public boolean canGoRight(int[][] gameboard) {
-        return checkColumnLimits(gameboard, 1, rightPointsToCheck);
+        return checkColumnLimits(gameboard, 1, getPointsToCheck("right", currentRotation));
     }
 
+    /**
+     * This function determines whether a piece can go left, or right, according to the value of @columnValue
+     *
+     * @param gameboard     the current gameboard
+     * @param columnValue   1 if right, -1 for left.
+     * @param pointsToCheck The points we want to check for this piece.
+     * @return boolean
+     */
     private boolean checkColumnLimits(int[][] gameboard, int columnValue, List<String> pointsToCheck) {
         boolean isLeft = (columnValue == -1);
 
@@ -114,13 +223,15 @@ public abstract class Piece implements Mouvement, MouvementPossible {
 
     @Override
     public boolean canGoDown(int[][] gameboard) {
-        if (!(getStartLine() + getMatrice().length < getContext().getResources().getInteger(R.integer.maxLines)))
+        if (!(getStartLine() + getMatrix().length < getContext().getResources().getInteger(R.integer.maxLines)))
             return false;
 
         int column = this.getStartColumn();
         int line = this.getStartLine();
 
-        for (String point : bottomPointsToCheck) {
+        List<String> pointsToCheck = getPointsToCheck("down", currentRotation);
+
+        for (String point : pointsToCheck) {
             int pointLine = Integer.parseInt(point.split(",")[0]);
             int pointColumn = Integer.parseInt(point.split(",")[1]);
 
@@ -181,6 +292,12 @@ public abstract class Piece implements Mouvement, MouvementPossible {
         Log.d("ROTATION_AFTER", Arrays.deepToString(matrice));
     }
 
+    /**
+     * Return the matri corresponding to a number
+     *
+     * @param rotationNumber int
+     * @return int[][]
+     */
     private int[][] getMatrix(int rotationNumber) {
         switch (rotationNumber) {
             case 0:
