@@ -3,6 +3,7 @@ package fr.sylvainmetayer.tetris;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +32,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView scoreBox;
     private Button left, right;
     private Timer timer;
-    MediaPlayer mediaPlayer;
-
+    private MediaPlayer mediaPlayer;
+    private Chronometer chronometer;
+    /**
+     * @see "https://stackoverflow.com/a/7064928"
+     */
+    private long timeWhenStopped;
     private ArrayList<Piece> datas;
 
     @Override
@@ -58,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
         initListeners();
 
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        chronometer.setFormat(getResources().getString(R.string.chrono) + " - %s");
+        timeWhenStopped = 0;
+
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -83,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_restart:
-                // TODO restart game
+                this.recreate();
                 return true;
             case R.id.menu_help:
                 showHelp();
@@ -106,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer.pause();
         else
             mediaPlayer.start();
-
     }
+
 
     private void showHelp() {
         this.runOnUiThread(new Runnable() {
@@ -115,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Do you want to logout?");
-                // alert.setMessage("Message");
+                alert.setMessage("Message");
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -146,8 +156,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 game.togglePause();
                 if (game.isPause()) {
+                    timeWhenStopped = chronometer.getBase() - SystemClock.elapsedRealtime();
+                    chronometer.stop();
                     pause.setText(getResources().getString(R.string.restart));
                 } else {
+                    chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+                    chronometer.start();
                     pause.setText(getResources().getString(R.string.pause));
                 }
             }

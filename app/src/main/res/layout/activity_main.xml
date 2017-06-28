@@ -17,15 +17,20 @@
             android:gravity="center"
             android:text="@string/start" />
 
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/left"
-            android:layout_width="wrap_content"
+            android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="wrap_content"
             android:text="@string/go_left" />
 
         <Button
             android:id="@+id/right"
-            android:layout_width="wrap_content"
+            android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="wrap_content"
             android:text="@string/go_right" />
 
@@ -35,6 +40,7 @@
             android:layout_height="wrap_content"
             android:inputType="none"
             android:text="@string/score" />
+
     </LinearLayout>
 
 

@@ -12,4 +12,5 @@
     <string name="menu_restart">Recommencer</string>
     <string name="menu_help">Aide</string>
     <string name="menu_music">Musique On/Off</string>
+    <string name="chrono">Temps</string>
 </resources>
