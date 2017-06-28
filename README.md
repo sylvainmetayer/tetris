@@ -4,7 +4,7 @@ Projet LP DAWIN - Jeu de Tetris
 
 [Téléchargez le jeu](https://play.google.com/store/apps/details?id=fr.sylvainmetayer.tetris)
 
-Tetris réalisé durant le module Android de la Licence Professionnelle DAWIN à l'IUT de Bordeau.
+Tetris réalisé durant le module Android de la Licence Professionnelle DAWIN à l'IUT de Bordeaux.
 
 Pour jouer :
 
