@@ -168,7 +168,7 @@ public class Game {
      * This method is used to remove full lines
      */
     private void checkFullLines() {
-        for (int gameLine = gameboard.length - 1; gameLine >= 0; gameLine--) {
+        for (int gameLine = 0; gameLine < gameboard.length; gameLine++) {
             int cpt = 0;
             for (int gameColumn = 0; gameColumn < gameboard[gameLine].length; gameColumn++) {
                 int pieceValue = gameboard[gameLine][gameColumn];
@@ -178,8 +178,8 @@ public class Game {
 
             if (cpt == gameboard[gameLine].length) {
                 // Line is full
-                for (int gameColumnIterator = 0; gameColumnIterator < gameboard[gameLine].length; gameColumnIterator++) {
-                    gameboard[gameLine][gameColumnIterator] = Piece.getEmptyPieceValue();
+                for (int gameColumn = 0; gameColumn < gameboard[gameLine].length; gameColumn++) {
+                    gameboard[gameLine][gameColumn] = Piece.getEmptyPieceValue();
                     score += cpt;
                 }
                 moveAllPieceDownAboveThisLine(gameLine);
@@ -194,7 +194,7 @@ public class Game {
      * @param line int: the limit line
      */
     private void moveAllPieceDownAboveThisLine(int line) {
-        for (int gameLine = 0; gameLine < line; gameLine++) {
+        for (int gameLine = (line - 1); gameLine >= 0; gameLine--) {
             for (int gameColumn = 0; gameColumn < gameboard[gameLine].length; gameColumn++) {
                 int pieceValue = gameboard[gameLine][gameColumn];
                 gameboard[gameLine][gameColumn] = Piece.getEmptyPieceValue();
