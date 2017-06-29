@@ -14,12 +14,12 @@ Pour jouer :
 
 - Le bouton de rotation permet de tourner une pièce, si cela est un mouvement possible. Pour faire tourner une pièce, il est également possible de cliquer sur la zone de jeu.
 
-- Il est possible d'activer et de désactiver la musique (libre de droit) dans le menu.
+- Il est possible d'activer et de désactiver la musique dans le menu.
 
 - Pour redémarrer une partie, cliquer sur l'option correspondante dans le menu.
 
 Sources : 
-- Musique : https://www.jamendo.com/track/1378426/08-zwischenspiel
+- Musique : https://archive.org/details/TetrisThemeMusic
 - Dépôt Github : https://github.com/sylvainmetayer/tetris/
 
 Pour reporter un problème sur le jeu : https://github.com/sylvainmetayer/tetris/issues
