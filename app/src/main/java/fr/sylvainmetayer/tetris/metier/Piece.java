@@ -118,6 +118,8 @@ public abstract class Piece implements Mouvement, MouvementPossible {
      */
     public static int getImage(int value) {
         switch (value) {
+            case 4:
+                return R.drawable.pink_image;
             case 3:
                 return R.drawable.green_image;
             case 2:

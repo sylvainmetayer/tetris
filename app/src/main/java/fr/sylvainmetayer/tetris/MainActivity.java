@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_restart:
+                if (mediaPlayer != null)
+                    this.mediaPlayer.stop();
                 this.recreate();
                 return true;
             case R.id.menu_help:

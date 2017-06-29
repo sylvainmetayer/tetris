@@ -7,7 +7,10 @@ import java.util.Random;
 
 import fr.sylvainmetayer.tetris.MainActivity;
 import fr.sylvainmetayer.tetris.R;
+import fr.sylvainmetayer.tetris.metier.pieces.Piece_I;
 import fr.sylvainmetayer.tetris.metier.pieces.Piece_S;
+import fr.sylvainmetayer.tetris.metier.pieces.Piece_Square;
+import fr.sylvainmetayer.tetris.metier.pieces.Piece_T;
 import fr.sylvainmetayer.tetris.utils.Utils;
 
 public class Game {
@@ -132,7 +135,7 @@ public class Game {
 
     private void createNewPiece(MainActivity activity) {
         Log.d("PERFORM", "Creation of a new piece");
-        int maxClassPiece = 3;
+        int maxClassPiece = 4;
 
         Random r = new Random();
         int classToChoose = r.nextInt(maxClassPiece);
@@ -150,14 +153,16 @@ public class Game {
         Piece piece = null;
         switch (classToChoose) {
             case 0:
-                piece = new Piece_S(0, randomColumn, activity);
+                piece = new Piece_I(0, randomColumn, activity);
                 break;
             case 1:
-                piece = new Piece_S(0, randomColumn, activity);
+                piece = new Piece_T(0, randomColumn, activity);
                 break;
             case 2:
                 piece = new Piece_S(0, randomColumn, activity);
                 break;
+            case 3:
+                piece = new Piece_Square(0, randomColumn, activity);
         }
         return piece;
     }
