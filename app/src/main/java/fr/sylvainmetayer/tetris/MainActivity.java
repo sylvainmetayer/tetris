@@ -135,8 +135,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                alert.setTitle("Do you want to logout?");
-                alert.setMessage("Message");
+                alert.setTitle("Aide");
+                StringBuilder sb = new StringBuilder();
+                sb.append("- Démarrer / suspendre la partie : Menu -> Play/Pause").append("\n");
+                sb.append("- Recommencer une partie : Menu -> Recommencer ").append("\n");
+                sb.append("- Activer / désactiver la musique : Menu -> Music").append("\n");
+                sb.append("- Déplacer à gauche une pièce : Bouton gauche ou swipe gauche").append("\n");
+                sb.append("- Déplacer à droite une pièce : Bouton droit ou swipe droit").append("\n");
+                sb.append("- Tourner une pièce : Bouton de rotation, ou clic sur la zone de jeu").append("\n");
+                alert.setMessage(sb.toString());
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
